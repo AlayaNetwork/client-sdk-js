@@ -182,6 +182,7 @@ Method.prototype.toPayload = function (args) {
     this.validateArgs(params);
 
     var payload = {
+        bech32: true,
         method: call,
         params: params,
         callback: callback

@@ -46,6 +46,7 @@ Jsonrpc.toPayload = function (method, params) {
     Jsonrpc.messageId++;
 
     return {
+        bech32: true,
         jsonrpc: '2.0',
         id: Jsonrpc.messageId,
         method: method,

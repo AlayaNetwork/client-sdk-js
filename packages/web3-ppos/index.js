@@ -198,7 +198,7 @@ PPOS.prototype.hexStrBuf = function (hexStr) {
 PPOS.prototype.rpc = async function (method, params) {
     try {
         params = params || [];
-        const data = { "jsonrpc": "2.0", "method": method, "params": params, "id": new Date().getTime() }
+        const data = { "jsonrpc": "2.0", "bech32": true, "method": method, "params": params, "id": new Date().getTime() }
         let replay = await this.client.post("", data);
         if (replay.status === 200) {
             if(undefined === replay.data.result && undefined != replay.data.error) {

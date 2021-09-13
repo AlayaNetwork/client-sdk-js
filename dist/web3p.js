@@ -40111,9 +40111,9 @@ ABICoder.prototype.decodeParameters = function (outputs, bytes) {
             var decodedValue = res[returnValue.__length__];
             decodedValue = (decodedValue === '0x') ? null : decodedValue;
 
-            if(output.type === "address")
+            if(output.type === "address" || output === "address")
                 decodedValue = utils.toBech32Address(netType, decodedValue);
-            else if(output.type === "address[]") {
+            else if(output.type === "address[]" || output === "address[]") {
                 for(let j=0; j < decodedValue.length; j++) {
                     decodedValue[j] = utils.toBech32Address(netType, decodedValue[j]);
                 }

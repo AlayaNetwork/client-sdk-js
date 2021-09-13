@@ -39559,9 +39559,9 @@ ABICoder.prototype.encodeParameters = function (types, params) {
         for (let i = 0; i < params.length; i++) {
             const param = params[i];
             const type = types[i].type;
-            if (type === "address") {
+            if (type === "address" || types[i] === "address") {
                 params[i] = utils.decodeBech32Address(param)
-            } else if (type === "address[]") {
+            } else if (type === "address[]" || types[i] === "address[]") {
                 for(let j=0; j < param.length; j++) {
                     params[i][j] = utils.decodeBech32Address(param[j])
                 }

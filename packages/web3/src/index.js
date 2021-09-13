@@ -28,12 +28,13 @@
 "use strict";
 
 
-var version = "0.15.1";
+var version = "0.16.1";
 var core = require('web3-core');
 var Eth = require('web3-eth');
 var Net = require('web3-net');
 var Personal = require('web3-eth-personal');
 var utils = require('web3-utils');
+var Admin = require('./admin');
 
 var Web3 = function Web3() {
     var _this = this;
@@ -63,11 +64,14 @@ var Web3 = function Web3() {
 
         return true;
     };
+
+    this.admin = new Admin(arguments[0]);
 };
 
 Web3.version = version;
 Web3.utils = utils;
 Web3.modules = {
+    Admin: Admin,
     Platon: Eth,
     Net: Net,
     Personal: Personal,

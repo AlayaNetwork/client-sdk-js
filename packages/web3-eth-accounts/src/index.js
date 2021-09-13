@@ -128,6 +128,9 @@ Accounts.prototype.create = function create(entropy) {
 };
 
 Accounts.prototype.privateKeyToAccount = function privateKeyToAccount(privateKey) {
+    if(privateKey.slice(0,2) !== "0x" && privateKey.slice(0,2) !== "0X") {
+        privateKey = "0x" + privateKey;
+    }
     return this._addAccountFunctions(Account.fromPrivate(privateKey));
 };
 

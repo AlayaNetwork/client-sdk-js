@@ -48,6 +48,10 @@ var transactionFromBlockCall = function (args) {
     return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'platon_getTransactionByBlockHashAndIndex' : 'platon_getTransactionByBlockNumberAndIndex';
 };
 
+var rawTransactionFromBlockCall = function (args) {
+    return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'platon_getRawTransactionByBlockHashAndIndex' : 'platon_getRawTransactionByBlockNumberAndIndex';
+};
+
 var uncleCall = function (args) {
     return (_.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'platon_getUncleByBlockHashAndIndex' : 'platon_getUncleByBlockNumberAndIndex';
 };
@@ -314,6 +318,7 @@ var Eth = function Eth() {
             name: 'getNodeInfo',
             call: 'web3_clientVersion'
         }),
+
         new Method({
             name: 'getProtocolVersion',
             call: 'platon_protocolVersion',
@@ -325,6 +330,14 @@ var Eth = function Eth() {
             params: 0,
             outputFormatter: formatter.outputSyncingFormatter
         }),
+
+        new Method({
+            name: 'chainId',
+            call: 'platon_chainId',
+            params: 0,
+            outputFormatter: formatter.outputBigNumberFormatter
+        }),
+
         new Method({
             name: 'getGasPrice',
             call: 'platon_gasPrice',
@@ -368,6 +381,11 @@ var Eth = function Eth() {
             inputFormatter: [formatter.inputAddressFormatter, formatter.inputDefaultBlockNumberFormatter]
         }),
         new Method({
+            name: 'evidences',
+            call: 'platon_evidences',
+            params: 0,
+        }),
+        new Method({
             name: 'getBlock',
             call: blockCall,
             params: 2,
@@ -395,6 +413,14 @@ var Eth = function Eth() {
             inputFormatter: [formatter.inputBlockNumberFormatter, utils.numberToHex],
             outputFormatter: formatter.outputTransactionFormatter
         }),
+        new Method({
+            name: 'getRawTransactionFromBlock',
+            call: rawTransactionFromBlockCall,
+            params: 2,
+            inputFormatter: [formatter.inputBlockNumberFormatter, utils.numberToHex],
+        //    outputFormatter: formatter.outputTransactionFormatter
+        }),
+
         new Method({
             name: 'getTransactionReceipt',
             call: 'platon_getTransactionReceipt',

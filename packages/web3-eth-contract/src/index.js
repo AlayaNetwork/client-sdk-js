@@ -898,12 +898,89 @@ Contract.prototype.newFilter = function () {
 }
 
 /**
+ * new block filter from contracts
+ *
+ * @method newBlockFilter
+ * @param {String} event
+ * @param {Object} options
+ * @param {Function} callback
+ * @return {Object} the rpc id
+ */
+ Contract.prototype.newBlockFilter = function () {
+    var subOptions = this._generateEventOptions.apply(this, arguments);
+
+    var newBlockFilter = new Method({
+        name: 'newBlockFilter',
+        call: 'platon_newBlockFilter',
+        params: 1,
+        inputFormatter: [formatters.inputLogFormatter],
+    });
+    
+    newBlockFilter.setRequestManager(this._requestManager);
+    var call = newBlockFilter.buildCall();
+
+    newBlockFilter = null;
+
+    return call(subOptions.params, subOptions.callback);
+}
+
+/**
+ * new pending transaction filter from contracts
+ *
+ * @method newPendingTransactionFilter
+ * @param {String} event
+ * @param {Object} options
+ * @param {Function} callback
+ * @return {Object} the rpc id
+ */
+ Contract.prototype.newPendingTransactionFilter = function () {
+    var subOptions = this._generateEventOptions.apply(this, arguments);
+
+    var newPendingTransactionFilter = new Method({
+        name: 'newPendingTransactionFilter',
+        call: 'platon_newPendingTransactionFilter',
+        params: 1,
+        inputFormatter: [formatters.inputLogFormatter],
+    });
+    
+    newPendingTransactionFilter.setRequestManager(this._requestManager);
+    var call = newPendingTransactionFilter.buildCall();
+
+    newPendingTransactionFilter = null;
+
+    return call(subOptions.params, subOptions.callback);
+}
+
+/**
+ * uninstall filter from contracts
+ *
+ * @method uninstallFilter
+ * @param {Object} rpcid
+ * @return {boolean} 
+ */
+ Contract.prototype.uninstallFilter = function () {
+    var subOptions = this._generateEventOptions.apply(this, arguments);
+
+    var uninstallFilter = new Method({
+        name: 'uninstallFilter',
+        call: 'platon_uninstallFilter',
+        params: 1,
+    });
+    
+    uninstallFilter.setRequestManager(this._requestManager);
+    var call = uninstallFilter.buildCall();
+
+    uninstallFilter = null;
+    return call(subOptions.params);
+}
+
+/**
  * Get filter Logs from contracts
  *
  * @method getFilterLogs
  * @param {String} rpcId
  * @param {Function} callback
- * @return {Object} the promievent
+ * @return {Object} the promieven
  */
 Contract.prototype.getFilterLogs = function () {
 
@@ -926,6 +1003,37 @@ Contract.prototype.getFilterLogs = function () {
     } else {
         throw new Error('getFilterLogs:Error parameters'); 
     }    
+};
+
+/**
+ * Get filter changes from contracts
+ *
+ * @method getFilterChanges
+ * @param {String} rpcId
+ * @param {Function} callback
+ * @return {Object} the promieven
+ */
+ Contract.prototype.getFilterChanges = function () {
+    var subOptions = this._generateEventOptions.apply(this, arguments);
+    var getFilterChanges = new Method({
+        name: 'getFilterChanges',
+        call: 'platon_getFilterChanges',
+        params: 1,
+    })
+
+    getFilterChanges.setRequestManager(this._requestManager);
+    var call = getFilterChanges.buildCall();
+
+    getFilterChanges = null;
+
+    if(arguments.length==1) {
+        return call(arguments[0]);
+    } else if (arguments.length==2){
+        // callback function
+        return call(arguments[0],arguments[1]);
+    } else {
+        throw new Error('getFilterChanges:Error parameters'); 
+    }     
 };
 
 /**

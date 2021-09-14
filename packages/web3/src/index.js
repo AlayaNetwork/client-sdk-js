@@ -35,6 +35,9 @@ var Net = require('web3-net');
 var Personal = require('web3-eth-personal');
 var utils = require('web3-utils');
 var Admin = require('./admin');
+var Debug = require('./debug');
+var Miner = require('./miner')
+var TxPool = require('./txpool')
 
 var Web3 = function Web3() {
     var _this = this;
@@ -55,26 +58,35 @@ var Web3 = function Web3() {
     }
 
     this.platon = new Eth(this);
-
+    this.admin = new Admin(this);
+    this.debug = new Debug(this);
+    this.miner = new Miner(this);
+    this.net = new Net(this);
+    this.txpool = new TxPool(this);
     // overwrite package setProvider
     var setProvider = this.setProvider;
     this.setProvider = function (provider, net) {
         setProvider.apply(_this, arguments);
         this.platon.setProvider(provider, net);
-
+        this.admin.setProvider(provider, net);
+        this.debug.setProvider(provider, net);
+        this.miner.setProvider(provider, net);
+        this.txpool.setProvider(provider, net);
         return true;
     };
-
-    this.admin = new Admin(arguments[0]);
+    
+    
 };
 
 Web3.version = version;
 Web3.utils = utils;
 Web3.modules = {
     Admin: Admin,
+    Debug: Debug,
     Platon: Eth,
     Net: Net,
     Personal: Personal,
+    TxPool: TxPool,
 };
 
 core.addProviders(Web3);

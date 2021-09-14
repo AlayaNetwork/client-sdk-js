@@ -2,7 +2,6 @@
 
 var core = require('web3-core');
 var Method = require('web3-core-method');
-var utils = require('web3-utils');
 var Net = require('web3-net');
 
 var Admin = function () {
@@ -11,6 +10,12 @@ var Admin = function () {
     // sets _requestmanager
     core.packageInit(this, arguments);
     this.net = new Net(this.currentProvider);
+    var self = this;
+    var setProvider = self.setProvider;
+    self.setProvider = function() {
+      setProvider.apply(self, arguments);
+      core.packageInit(_this, [self.currentProvider]);
+    };
 
     [
         new Method({

@@ -80,6 +80,18 @@ var Personal = function Personal() {
 
     var methods = [
         new Method({
+            name: 'openWallet',
+            call: 'personal_openWallet',
+            params: 2,
+        }),
+
+        new Method({
+            name: 'listWallets',
+            call: 'personal_listWallets',
+            params: 0,
+        }),
+
+        new Method({
             name: 'getAccounts',
             call: 'personal_listAccounts',
             params: 0,
@@ -126,6 +138,12 @@ var Personal = function Personal() {
             call: 'personal_sign',
             params: 3,
             inputFormatter: [formatters.inputSignFormatter, formatters.inputAddressFormatter, null]
+        }),
+        new Method({
+            name: 'signAndSendTransaction',
+            call: 'personal_signAndSendTransaction',
+            params: 2,
+            inputFormatter: [formatters.inputTransactionFormatter, null]
         }),
         new Method({
             name: 'ecRecover',

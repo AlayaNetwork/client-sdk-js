@@ -308,7 +308,7 @@ Accounts.prototype.hashMessage = function hashMessage(data) {
 
 Accounts.prototype.sign = function sign(data, privateKey) {
   var hash = ethereumjsUtil.hashPersonalMessage(ethereumjsUtil.toBuffer(data));
-  var privateKey = new Buffer(privateKey.slice(2), 'hex');
+  var privateKey = Buffer.from(privateKey.slice(2), 'hex');
   var signature = ethereumjsUtil.ecsign(hash, privateKey);
   var r = signature.r.toString('hex');
   var s = signature.s.toString('hex');

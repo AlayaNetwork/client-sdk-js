@@ -8,6 +8,7 @@
         "node": ">=8.0.0"
     },
     "scripts": {
+        "compile": "tsc -b tsconfig.json",
         "dtslint": "dtslint types --onlyTestTsNext"
     },
     "types": "types/index.d.ts",

@@ -9,9 +9,15 @@
     },
     "types": "types/index.d.ts",
     "scripts": {
+        "compile": "tsc -b tsconfig.json",
         "dtslint": "dtslint types --onlyTestTsNext"
     },
     "main": "src/index.js",
+    "browser": {
+        "crypto": false,
+        "vm": false,
+        "stream": false
+    },
     "dependencies": {
         "@web3-js/scrypt-shim": "^0.1.0",
         "any-promise": "1.3.0",

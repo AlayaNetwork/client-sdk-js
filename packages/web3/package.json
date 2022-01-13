@@ -20,10 +20,10 @@
     "types": "types/index.d.ts",
     "scripts": {
         "dtslint": "dtslint types --onlyTestTsNext",
-        "postinstall": "node angular-patch.js"
+        "postinstall": "node angular-patch.js",
+        "compile": "tsc -b tsconfig.json"
     },
-    "authors": [
-        {
+    "authors": [{
             "name": "Fabian Vogelsteller",
             "email": "fabian@ethereum.org",
             "homepage": "http://frozeman.de"
@@ -49,15 +49,15 @@
         }
     ],
     "dependencies": {
-        "@types/node": "^12.6.1",
         "web3-core": "1.2.4",
         "web3-eth": "1.2.4",
         "web3-eth-personal": "1.2.4",
         "web3-net": "1.2.4",
         "web3-utils": "1.2.4",
-	"web3-ppos": "1.0.0"
+        "web3-ppos": "1.0.0"
     },
     "devDependencies": {
+        "@types/node": "^12.6.1",
         "definitelytyped-header-parser": "^1.0.1",
         "dtslint": "0.4.2"
     }

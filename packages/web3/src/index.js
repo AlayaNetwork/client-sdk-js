@@ -34,6 +34,7 @@ var Eth = require('web3-eth');
 var Net = require('web3-net');
 var Personal = require('web3-eth-personal');
 var utils = require('web3-utils');
+var PPOS = require('web3-ppos');
 
 var Web3 = function Web3() {
     var _this = this;
@@ -46,7 +47,6 @@ var Web3 = function Web3() {
 
     // PPOS暂时只支持Node.js环境，而且只支持http协议，不支持浏览器。
     if (typeof global === 'object') {
-        var PPOS = require('../../web3-ppos');
         this.PPOS = PPOS;
         if (typeof arguments[0] === 'string' && arguments[0].startsWith('http')) {
             this.ppos = new PPOS({ provider: arguments[0] })

@@ -9,6 +9,7 @@
     },
     "types": "types/index.d.ts",
     "scripts": {
+        "compile": "tsc -b tsconfig.json",
         "dtslint": "dtslint types --onlyTestTsNext"
     },
     "main": "src/index.js",

@@ -7,6 +7,9 @@
     "engines": {
         "node": ">=8.0.0"
     },
+    "scripts": {
+        "compile": "tsc -b tsconfig.json"
+    },
     "main": "src/index.js",
     "dependencies": {
         "any-promise": "1.3.0",

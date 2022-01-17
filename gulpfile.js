@@ -21,11 +21,11 @@ var exec = require('child_process').exec;
 var DEST = path.join(__dirname, 'dist/');
 var WEB3_PACKAGE_DEST = path.join(__dirname, 'packages/web3/dist');
 
-var packages = [{
+var packages = [ {
     fileName: 'web3',
     expose: 'Web3',
     src: './packages/web3/src/index.js',
-    ignore: ['xmlhttprequest']
+    ignore: [ 'xmlhttprequest' ]
 }, {
     fileName: 'web3-utils',
     expose: 'Web3Utils',
@@ -78,7 +78,7 @@ var packages = [{
     fileName: 'web3-providers-http',
     expose: 'Web3HttpProvider',
     src: './packages/web3-providers-http/src/index.js',
-    ignore: ['xmlhttprequest']
+    ignore: [ 'xmlhttprequest' ]
 }, {
     fileName: 'web3-providers-ws',
     expose: 'Web3WsProvider',
@@ -99,7 +99,7 @@ var packages = [{
     fileName: 'web3-core-method',
     expose: 'Web3Method',
     src: './packages/web3-core-method/src/index.js'
-}];
+} ];
 
 var browserifyOptions = {
     debug: true,
@@ -120,7 +120,7 @@ var ugliyOptions = {
     }
 };
 
-gulp.task('version', function() {
+gulp.task('version', function () {
     if (!lernaJSON.version) {
         throw new Error('version property is missing from lerna.json');
     }
@@ -134,43 +134,43 @@ gulp.task('version', function() {
         './package.js'
     ];
 
-    return gulp.src(glob, {base: './'})
+    return gulp.src(glob, { base: './' })
         .pipe(replace(jsonPattern, '"version": "' + version + '"'))
         .pipe(replace(jsPattern, 'version: \'' + version + '\''))
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('bower', gulp.series('version', function(cb) {
-    bower.commands.install().on('end', function(installed) {
+gulp.task('bower', gulp.series('version', function (cb) {
+    bower.commands.install().on('end', function (installed) {
         console.log(installed);
         cb();
     });
 }));
 
-gulp.task('lint', function() {
-    return gulp.src(['./*.js', './lib/*.js'])
+gulp.task('lint', function () {
+    return gulp.src([ './*.js', './lib/*.js' ])
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('clean', gulp.series('lint', function(cb) {
-    del([DEST]).then(cb.bind(null, null));
+gulp.task('clean', gulp.series('lint', function (cb) {
+    del([ DEST ]).then(cb.bind(null, null));
 }));
 
-packages.forEach(function(pckg, i) {
-    var prevPckg = (!i) ? 'clean' : packages[i - 1].fileName;
-
-    gulp.task(pckg.fileName, gulp.series(prevPckg, function() {
+packages.forEach(function (pckg, i) {
+    var prevPckg = (!i) ? 'clean' : packages[ i - 1 ].fileName;
+    console.log('go width all package');
+    gulp.task(pckg.fileName, gulp.series(prevPckg, function () {
         browserifyOptions.standalone = pckg.expose;
 
         var stream = browserify(browserifyOptions)
-            .require(pckg.src, {expose: pckg.expose})
-            .require('bn.js', {expose: 'BN'}) // expose it to dapp developers
+            .require(pckg.src, { expose: pckg.expose })
+            .require('bn.js', { expose: 'BN' }) // expose it to dapp developers
             .add('./node_modules/regenerator-runtime')
             .add(pckg.src);
 
         if (pckg.ignore) {
-            pckg.ignore.forEach(function(ignore) {
+            pckg.ignore.forEach(function (ignore) {
                 stream.ignore(ignore);
             });
         }
@@ -212,7 +212,7 @@ packages.forEach(function(pckg, i) {
         stream = stream
             .pipe(gulp.dest(DEST))
             .pipe(streamify(uglify(ugliyOptions)))
-            .on('error', function(err) {
+            .on('error', function (err) {
                 console.error(err);
             })
             .pipe(rename(pckg.fileName + '.min.js'));
@@ -227,14 +227,14 @@ packages.forEach(function(pckg, i) {
     }));
 });
 
-gulp.task('publishTag', function() {
+gulp.task('publishTag', function () {
     exec('git commit -am "add tag v' + lernaJSON.version + '"; git tag v' + lernaJSON.version + '; git push origin v' + lernaJSON.version + ';');
 });
 
-gulp.task('watch', function() {
-    gulp.watch(['./packages/web3/src/*.js'], gulp.series('lint', 'default'));
+gulp.task('watch', function () {
+    gulp.watch([ './packages/web3/src/*.js' ], gulp.series('lint', 'default'));
 });
 
-gulp.task('all', gulp.series('version', 'lint', 'clean', packages[packages.length - 1].fileName));
+gulp.task('all', gulp.series('version', 'lint', 'clean', packages[ packages.length - 1 ].fileName));
 
-gulp.task('default', gulp.series('version', 'lint', 'clean', packages[0].fileName));
+gulp.task('default', gulp.series('version', 'lint', 'clean', packages[ 0 ].fileName));

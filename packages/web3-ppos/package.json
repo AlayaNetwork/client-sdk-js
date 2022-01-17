@@ -2,8 +2,9 @@
     "name": "web3-ppos",
     "version": "1.0.0",
     "description": "ppos api",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
+        "compile": "tsc -b tsconfig.json",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
